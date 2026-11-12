@@ -17,6 +17,9 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { CartSheet } from "@/components/site/CartSheet";
 import { Toaster } from "@/components/ui/sonner";
+import { CustomCursor } from "@/components/site/CustomCursor";
+import { SocialProof } from "@/components/site/SocialProof";
+import { WelcomeOffer } from "@/components/site/WelcomeOffer";
 
 function NotFoundComponent() {
   return (
@@ -135,13 +138,16 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <CartProvider>
         <Header />
-        <main className="min-h-screen pt-[7.25rem]">
+        <main className="min-h-screen pt-[7.75rem]">
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
         </main>
         <Footer />
         <CartSheet />
         <Toaster position="bottom-right" />
+        <SocialProof />
+        <WelcomeOffer />
+        <CustomCursor />
       </CartProvider>
     </QueryClientProvider>
   );
