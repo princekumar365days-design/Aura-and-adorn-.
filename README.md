@@ -1,14 +1,24 @@
-# Welcome to your Lovable project
+# Gilded Glam Jewelry
+
+mujhe website banani e commerce store with html and css and thorii login aur sign up karney ke liye java script bhe 
+
+my website is about jewellery ,nails, bracelets 
+
+theme:white black and golden 
+
+different sections honey chahiyeh like home,products ,aur website mein animations honey chahiyeh and website (aura and adorn)
 
 This project was built with [Lovable](https://lovable.dev).
 
+**Live app**: https://gilded-glam-jewelry.lovable.app
+
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/c92336f0-8aa2-5eee-9b5c-c01c600fb161).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +30,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
