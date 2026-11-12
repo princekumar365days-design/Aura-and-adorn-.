@@ -31,6 +31,7 @@ use the editor.
 
 ## Project rules
 - Storefront is static: product catalog lives in `src/lib/products.ts` and the bag is client state persisted to localStorage (`src/lib/cart.tsx`) — no payments/Shopify yet, so checkout is a placeholder.
-- Accounts use Lovable Cloud auth (email/password, Google, Lovable); the display name is stored in auth user metadata (`full_name`), no profiles table.
+- Accounts are browser-only (`src/lib/local-auth.ts`, localStorage, SHA-256 password hash) by the user's request — no server auth; accounts don't sync across devices.
 - Site chrome (header, footer, bag drawer, toaster) is mounted once in `src/routes/__root.tsx`; pages only render their own content.
+- Conversion widgets (custom cursor, sale countdown, recent-purchase popup, welcome offer) are mounted in `__root.tsx` and are client-only.
 - Scroll animations use the `<Reveal>` component + `.reveal` CSS class; all motion is defined in `src/styles.css`.

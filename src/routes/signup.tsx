@@ -1,12 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { MailCheck } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { signUp } from "@/lib/local-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AuthShell, SocialButtons } from "@/components/site/AuthShell";
+import { AuthShell } from "@/components/site/AuthShell";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -29,43 +28,26 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [busy, setBusy] = useState(false);
-  const [sent, setSent] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password.length < 6) { toast.error("Password must be at least 6 characters."); return; }
-    if (password !== confirm) { toast.error("Passwords do not match."); return; }
-    setBusy(true);
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { emailRedirectTo: window.location.origin, data: { full_name: name } },
-    });
-    setBusy(false);
-    if (error) { toast.error(error.message); return; }
-    if (data.session) {
-      toast.success("Account created!");
-      navigate({ to: "/" });
-    } else {
-      setSent(true);
+    if (password !== confirm) {
+      toast.error("Passwords do not match.");
+      return;
     }
+    setBusy(true);
+    const err = await signUp(name, email, password);
+    setBusy(false);
+    if (err) {
+      toast.error(err);
+      return;
+    }
+    toast.success(`Welcome, ${name.split(" ")[0]}! Use code AURA10 for 10% off.`);
+    navigate({ to: "/products" });
   };
 
-  if (sent) {
-    return (
-      <AuthShell title="Check your email" subtitle={`We sent a confirmation link to ${email}.`}>
-        <div className="flex flex-col items-center gap-6 text-center">
-          <MailCheck className="size-14 text-gold animate-float" />
-          <p className="text-muted-foreground">Click the link in the email to activate your account, then log in.</p>
-          <Button variant="luxe" size="xl" asChild><Link to="/login">Go to login</Link></Button>
-        </div>
-      </AuthShell>
-    );
-  }
-
   return (
-    <AuthShell title="Create account" subtitle="Join Aura & Adorn for exclusive drops and offers.">
-      <SocialButtons onDone={() => { toast.success("Welcome!"); navigate({ to: "/" }); }} />
+    <AuthShell title="Create account" subtitle="Join Aura & Adorn and get 10% off your first order.">
       <form onSubmit={submit} className="space-y-5">
         <div className="space-y-2">
           <Label htmlFor="name" className="eyebrow text-[0.6rem]">Full name</Label>

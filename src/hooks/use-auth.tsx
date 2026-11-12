@@ -1,27 +1,12 @@
 import { useEffect, useState } from "react";
-import type { User } from "@supabase/supabase-js";
-import { supabase } from "@/integrations/supabase/client";
+import { currentUser, logOut, onAuthChange, type LocalUser } from "@/lib/local-auth";
 
 export function useAuth() {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
+  const [user, setUser] = useState<LocalUser | null>(null);
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user ?? null);
-      setLoading(false);
-    });
-    return () => sub.subscription.unsubscribe();
+    const sync = () => setUser(currentUser());
+    sync();
+    return onAuthChange(sync);
   }, []);
-
-  const name =
-    (user?.user_metadata?.["full_name"] as string | undefined) ??
-    (user?.user_metadata?.["name"] as string | undefined) ??
-    user?.email?.split("@")[0];
-
-  return { user, loading, name, signOut: () => supabase.auth.signOut() };
+  return { user, name: user?.name.split(" ")[0], signOut: async () => logOut() };
 }
