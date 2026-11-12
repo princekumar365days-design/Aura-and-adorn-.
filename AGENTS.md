@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- Storefront is static: product catalog lives in `src/lib/products.ts` and the bag is client state persisted to localStorage (`src/lib/cart.tsx`) — no payments/Shopify yet, so checkout is a placeholder.
+- Accounts use Lovable Cloud auth (email/password, Google, Lovable); the display name is stored in auth user metadata (`full_name`), no profiles table.
+- Site chrome (header, footer, bag drawer, toaster) is mounted once in `src/routes/__root.tsx`; pages only render their own content.
+- Scroll animations use the `<Reveal>` component + `.reveal` CSS class; all motion is defined in `src/styles.css`.
