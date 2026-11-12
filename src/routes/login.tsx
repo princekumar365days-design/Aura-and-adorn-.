@@ -1,11 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { logIn } from "@/lib/local-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AuthShell, SocialButtons } from "@/components/site/AuthShell";
+import { AuthShell } from "@/components/site/AuthShell";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -26,64 +26,37 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
-  const [forgot, setForgot] = useState(false);
-
-  const done = () => {
-    toast.success("Welcome back!");
-    navigate({ to: "/" });
-  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
-    if (forgot) {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
-      });
-      setBusy(false);
-      if (error) { toast.error(error.message); return; }
-      toast.success("Check your email for a reset link.");
-      setForgot(false);
+    const err = await logIn(email, password);
+    setBusy(false);
+    if (err) {
+      toast.error(err);
       return;
     }
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setBusy(false);
-    if (error) { toast.error(error.message); return; }
-    done();
+    toast.success("Welcome back!");
+    navigate({ to: "/" });
   };
 
   return (
-    <AuthShell
-      title={forgot ? "Reset password" : "Welcome back"}
-      subtitle={forgot ? "We'll email you a link to set a new password." : "Log in to your account to continue."}
-    >
-      {!forgot && <SocialButtons onDone={done} />}
+    <AuthShell title="Welcome back" subtitle="Log in to your account to continue.">
       <form onSubmit={submit} className="space-y-5">
         <div className="space-y-2">
           <Label htmlFor="email" className="eyebrow text-[0.6rem]">Email</Label>
           <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="h-12 rounded-none" />
         </div>
-        {!forgot && (
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password" className="eyebrow text-[0.6rem]">Password</Label>
-              <button type="button" onClick={() => setForgot(true)} className="text-xs text-gold-deep hover:underline">
-                Forgot password?
-              </button>
-            </div>
-            <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="h-12 rounded-none" />
-          </div>
-        )}
+        <div className="space-y-2">
+          <Label htmlFor="password" className="eyebrow text-[0.6rem]">Password</Label>
+          <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="h-12 rounded-none" />
+        </div>
         <Button variant="luxe" size="xl" type="submit" disabled={busy} className="w-full">
-          {busy ? "Please wait…" : forgot ? "Send reset link" : "Log in"}
+          {busy ? "Please wait…" : "Log in"}
         </Button>
       </form>
       <p className="mt-8 text-center text-sm text-muted-foreground">
-        {forgot ? (
-          <button onClick={() => setForgot(false)} className="text-gold-deep hover:underline">Back to login</button>
-        ) : (
-          <>New here? <Link to="/signup" className="text-gold-deep hover:underline">Create an account</Link></>
-        )}
+        New here? <Link to="/signup" className="text-gold-deep hover:underline">Create an account</Link>
       </p>
     </AuthShell>
   );
