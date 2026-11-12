@@ -19,8 +19,8 @@ export function useAuth() {
   }, []);
 
   const name =
-    (user?.user_metadata?.full_name as string | undefined) ??
-    (user?.user_metadata?.name as string | undefined) ??
+    (user?.user_metadata?.["full_name"] as string | undefined) ??
+    (user?.user_metadata?.["name"] as string | undefined) ??
     user?.email?.split("@")[0];
 
   return { user, loading, name, signOut: () => supabase.auth.signOut() };

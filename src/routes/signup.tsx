@@ -33,8 +33,8 @@ function Signup() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password.length < 6) return toast.error("Password must be at least 6 characters.");
-    if (password !== confirm) return toast.error("Passwords do not match.");
+    if (password.length < 6) { toast.error("Password must be at least 6 characters."); return; }
+    if (password !== confirm) { toast.error("Passwords do not match."); return; }
     setBusy(true);
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -42,7 +42,7 @@ function Signup() {
       options: { emailRedirectTo: window.location.origin, data: { full_name: name } },
     });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     if (data.session) {
       toast.success("Account created!");
       navigate({ to: "/" });

@@ -8,8 +8,8 @@ const IDS = CATEGORIES.map((c) => c.id) as string[];
 
 export const Route = createFileRoute("/products")({
   validateSearch: (s: Record<string, unknown>): { category?: Category } =>
-    typeof s.category === "string" && IDS.includes(s.category)
-      ? { category: s.category as Category }
+    typeof s["category"] === "string" && IDS.includes(s["category"])
+      ? { category: s["category"] as Category }
       : {},
   head: () => ({
     meta: [
