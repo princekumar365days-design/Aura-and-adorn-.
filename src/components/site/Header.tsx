@@ -2,6 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, ShoppingBag, User, X, LogOut } from "lucide-react";
 import { Logo } from "./Logo";
+import { SaleBar } from "./SaleBar";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
@@ -46,14 +47,11 @@ export function Header() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-        scrolled ? "border-b border-border bg-background/90 backdrop-blur-md" : "bg-background",
+        "border-b border-gold/30 text-ivory",
+        scrolled ? "bg-onyx/95 shadow-card backdrop-blur-md" : "bg-onyx",
       )}
     >
-      <div className="bg-onyx py-1.5 text-center text-ivory">
-        <p className="eyebrow text-[0.6rem]">
-          Free delivery on orders above <span className="text-gold">Rs. 5,000</span>
-        </p>
-      </div>
+      <SaleBar />
       <div
         className={cn(
           "mx-auto grid max-w-7xl grid-cols-3 items-center px-5 transition-all duration-500 md:px-8",
@@ -66,30 +64,30 @@ export function Header() {
               key={n.to}
               to={n.to}
               activeOptions={{ exact: true }}
-              className="gold-line eyebrow text-onyx transition-colors hover:text-gold-deep"
+              className="gold-line eyebrow text-ivory/85 transition-colors hover:text-gold data-[status=active]:text-gold"
             >
               {n.label}
             </Link>
           ))}
         </nav>
         <button
-          className="md:hidden"
+          className="text-ivory md:hidden"
           aria-label="Open menu"
           onClick={() => setMobile(true)}
         >
           <Menu className="size-6" />
         </button>
 
-        <Logo className="justify-self-center" />
+        <Logo light className="justify-self-center" />
 
         <div className="flex items-center justify-end gap-4">
           {user ? (
             <div className="hidden items-center gap-3 sm:flex">
-              <span className="eyebrow text-muted-foreground">Hi, {name}</span>
+              <span className="eyebrow text-gold">Hi, {name}</span>
               <button
                 onClick={logout}
                 aria-label="Log out"
-                className="text-onyx transition-colors hover:text-gold-deep"
+                className="text-ivory transition-colors hover:text-gold"
               >
                 <LogOut className="size-5" />
               </button>
@@ -98,7 +96,7 @@ export function Header() {
             <Link
               to="/login"
               aria-label="Login"
-              className="flex items-center gap-2 text-onyx transition-colors hover:text-gold-deep"
+              className="flex items-center gap-2 text-ivory transition-colors hover:text-gold"
             >
               <User className="size-5" />
               <span className="eyebrow hidden lg:inline">Login</span>
@@ -107,7 +105,7 @@ export function Header() {
           <button
             onClick={() => setOpen(true)}
             aria-label="Open shopping bag"
-            className="relative text-onyx transition-colors hover:text-gold-deep"
+            className="relative text-ivory transition-colors hover:text-gold"
           >
             <ShoppingBag className={cn("size-5 transition-transform", bump && "scale-125")} />
             {count > 0 && (

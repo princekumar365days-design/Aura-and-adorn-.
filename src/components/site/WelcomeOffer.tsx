@@ -22,7 +22,7 @@ export function WelcomeOffer() {
   };
   return (
     <Dialog open={open} onOpenChange={close}>
-      <DialogContent className="grid max-w-2xl gap-0 overflow-hidden rounded-none border-gold/40 bg-onyx p-0 text-ivory sm:grid-cols-2">
+      <DialogContent className="grid max-w-2xl gap-0 overflow-hidden rounded-none border-gold/40 bg-onyx p-0 sm:rounded-none text-ivory sm:grid-cols-2">
         <img src={img} alt="Pearl press-on nails" className="hidden h-full w-full object-cover sm:block" />
         <div className="flex flex-col items-center p-10 text-center">
           <Gift className="size-9 text-gold animate-float" />
