@@ -319,3 +319,10 @@
     transform: none;
   }
 }
+
+/* Google sign-in button: Google brand "light" theme colours (required by Google branding). */
+.google-btn {
+  background: #ffffff;
+  border: 1px solid #747775;
+  color: #1f1f1f;
+}
