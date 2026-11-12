@@ -326,3 +326,106 @@
   border: 1px solid #747775;
   color: #1f1f1f;
 }
+
+/* Animated custom cursor (desktop only; enabled by CustomCursor adding .custom-cursor) */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  pointer-events: none;
+  display: none;
+}
+.custom-cursor .cursor-dot,
+.custom-cursor .cursor-ring {
+  display: block;
+}
+.custom-cursor,
+.custom-cursor * {
+  cursor: none !important;
+}
+.cursor-dot span,
+.cursor-ring span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  border-radius: 9999px;
+  translate: -50% -50%;
+  transition:
+    width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.35s,
+    opacity 0.3s,
+    scale 0.15s;
+}
+.cursor-dot span {
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  box-shadow: 0 0 12px var(--gold);
+}
+.cursor-ring span {
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid var(--gold);
+  animation: cursor-spin 6s linear infinite;
+  border-top-color: transparent;
+}
+.cursor-hover .cursor-ring span {
+  width: 64px;
+  height: 64px;
+  background: color-mix(in oklab, var(--gold) 18%, transparent);
+  border-top-color: var(--gold);
+}
+.cursor-hover .cursor-dot span {
+  width: 4px;
+  height: 4px;
+}
+.cursor-down .cursor-ring span {
+  scale: 0.75;
+}
+.cursor-hidden .cursor-dot span,
+.cursor-hidden .cursor-ring span {
+  opacity: 0;
+}
+.cursor-spark {
+  position: fixed;
+  z-index: 9998;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: var(--gold-light);
+  box-shadow: 0 0 8px var(--gold);
+  animation: spark-fade 0.7s ease-out forwards;
+}
+@keyframes cursor-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@keyframes spark-fade {
+  to {
+    opacity: 0;
+    transform: translateY(14px) scale(0.2);
+  }
+}
+@keyframes ticker {
+  0%, 28% { transform: translateY(0); }
+  33%, 61% { transform: translateY(-33.333%); }
+  66%, 95% { transform: translateY(-66.666%); }
+  100% { transform: translateY(0); }
+}
+.animate-ticker {
+  animation: ticker 12s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--gold) 70%, transparent); }
+  100% { box-shadow: 0 0 0 14px transparent; }
+}
+.animate-pulse-ring {
+  animation: pulse-ring 1.8s ease-out infinite;
+}
