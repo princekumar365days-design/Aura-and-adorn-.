@@ -46,9 +46,7 @@ export function Header() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-        scrolled
-          ? "border-b border-border bg-background/90 py-3 backdrop-blur-md"
-          : "bg-background py-5",
+        scrolled ? "border-b border-border bg-background/90 backdrop-blur-md" : "bg-background",
       )}
     >
       <div className="bg-onyx py-1.5 text-center text-ivory">
@@ -56,7 +54,12 @@ export function Header() {
           Free delivery on orders above <span className="text-gold">Rs. 5,000</span>
         </p>
       </div>
-      <div className="mx-auto mt-3 grid max-w-7xl grid-cols-3 items-center px-5 md:px-8">
+      <div
+        className={cn(
+          "mx-auto grid max-w-7xl grid-cols-3 items-center px-5 transition-all duration-500 md:px-8",
+          scrolled ? "py-3" : "py-5",
+        )}
+      >
         <nav className="hidden items-center gap-8 md:flex">
           {NAV.map((n) => (
             <Link
